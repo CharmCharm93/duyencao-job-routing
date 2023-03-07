@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useAuth } from "./Auth";
 import { Typography } from "@mui/material";
@@ -53,6 +53,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchAppBar({ setSearchValue }) {
   const auth = useAuth();
   let navigate = useNavigate();
+  let location = useLocation();
 
   const handleLogOut = () => {
     auth.logout();
@@ -81,6 +82,7 @@ export default function SearchAppBar({ setSearchValue }) {
               size="small"
               component={Link}
               to={"/login"}
+              state={{ background: location }}
             >
               Sign In
             </Button>

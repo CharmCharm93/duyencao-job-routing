@@ -4,13 +4,14 @@ import Button from "@mui/material/Button";
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Link } from "react-router-dom";
-import { useAuth } from "./Auth";
+import { Link, useLocation } from "react-router-dom";
 import { Stack } from "@mui/system";
 import { Chip } from "@mui/material";
+import { useAuth } from "./Auth";
 
 function JobCard({ job }) {
-  let auth = useAuth();
+  const location = useLocation();
+  const auth = useAuth();
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -36,6 +37,7 @@ function JobCard({ job }) {
             size="small"
             component={Link}
             to={`/jobs/${job.id}`}
+            state={{ background: location }}
           >
             Learn More
           </Button>
@@ -47,12 +49,11 @@ function JobCard({ job }) {
             size="small"
             component={Link}
             to={`/login`}
+            state={{ background: location, jobId: job.id }}
           >
             Learn More
           </Button>
         )}
-
-        {/* {console.log(auth.user)} */}
       </CardActions>
     </Card>
   );

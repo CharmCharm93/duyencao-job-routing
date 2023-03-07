@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FormProvider } from "../components/form";
 import { FTextField } from "../components/form";
 import * as Yup from "yup";
@@ -21,6 +21,7 @@ const style = {
   border: "1px solid white",
   borderRadius: 4,
   padding: 10,
+  backgroundColor: "black",
 };
 
 const LoginSchema = Yup.object().shape({
@@ -34,7 +35,9 @@ const defaultValues = {
 
 function LoginPage() {
   let navigate = useNavigate();
+  let location = useLocation();
   const auth = useAuth();
+
   const handleClose = () => {
     navigate(-1);
   };
@@ -44,13 +47,18 @@ function LoginPage() {
     resolver: yupResolver(LoginSchema),
   });
 
-  console.log(methods);
   const { handleSubmit } = methods;
 
   const onSubmit = (data) => {
     // console.log(data);
+
     auth.login(data.username);
-    navigate("/");
+
+    if (!location.state.jobId) {
+      navigate("/");
+    } else {
+      navigate(`/jobs/${location.state.jobId}`);
+    }
   };
   return (
     <div>

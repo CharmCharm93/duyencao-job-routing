@@ -58,7 +58,7 @@ function JobDetail() {
   }, [jobId]);
 
   const handleClose = () => {
-    navigate(-1);
+    navigate(-2);
   };
   return (
     <>

@@ -1,10 +1,9 @@
 import * as React from "react";
 
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { AuthProvider } from "./components/Auth";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import JobDetail from "./components/JobDetail";
@@ -21,25 +20,34 @@ function App() {
       }),
     [prefersDarkMode]
   );
+
+  let location = useLocation();
+  let background = location.state && location.state.background;
+
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <AuthProvider>
+        <Routes location={background || location}>
+          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/jobs/:jobId" element={<JobDetail />} />
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: "1rem" }}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Routes>
+
+        {background && (
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="jobs/:jobId" element={<JobDetail />} />
-            <Route
-              path="*"
-              element={
-                <main style={{ padding: "1rem" }}>
-                  <p>There's nothing here!</p>
-                </main>
-              }
-            />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/jobs/:jobId" element={<JobDetail />} />
           </Routes>
-        </AuthProvider>
+        )}
       </ThemeProvider>
     </>
   );

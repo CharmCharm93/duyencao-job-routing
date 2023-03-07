@@ -55,6 +55,7 @@ function HomePage() {
   return (
     <Stack sx={{ minHeight: "100vh" }}>
       <SearchAppBar setSearchValue={setSearchValue} />
+
       <Stack>
         {loading ? (
           <CircularColor />
