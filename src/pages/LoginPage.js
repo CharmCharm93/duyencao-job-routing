@@ -36,6 +36,7 @@ const defaultValues = {
 function LoginPage() {
   let navigate = useNavigate();
   let location = useLocation();
+
   const auth = useAuth();
 
   const handleClose = () => {
@@ -57,7 +58,10 @@ function LoginPage() {
     if (!location.state.jobId) {
       navigate("/");
     } else {
-      navigate(`/jobs/${location.state.jobId}`);
+      navigate(`/jobs/${location.state.jobId}`, {
+        state: { background: location.state },
+      });
+      console.log(location);
     }
   };
   return (
